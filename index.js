@@ -17,7 +17,7 @@ var SimpleSESAdapter = sesOptions => {
       to: mail.to,
       from: sesOptions.fromAddress,
       subject: mail.subject,
-      message: mail.text,
+      altText: mail.text,
     };
 
     return new Promise((resolve, reject) => {
