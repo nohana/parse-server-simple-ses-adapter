@@ -7,7 +7,7 @@ var NohanaMailAdapter = options => {
     throw 'NohanaMailAdapter requires options.';
   }
 
-  var sesOptions = options.sesOptions;
+  var sesOptions = options.ses;
   if (!sesOptions || !sesOptions.apiKey || !sesOptions.apiSecret || !sesOptions.domain || !sesOptions.fromAddress) {
     throw 'NohanaMailAdapter requires an SES API Key, SES domain, and SES fromAddress.';
   }
@@ -16,9 +16,9 @@ var NohanaMailAdapter = options => {
   }
   var sesClient = ses.createClient({ key: sesOptions.apiKey, secret: sesOptions.apiSecret, amazon : sesOptions.amazon });
 
-  var twilioOptions = options.twilioOptions;
-  if (!twilioOptions || !twilioOptions.accountSid || !twilioOptions.authToken) {
-    throw 'NohanaMailAdapter requires an twilio account sid, twilio auth token.';
+  var twilioOptions = options.twilio;
+  if (!twilioOptions || !twilioOptions.accountSid || !twilioOptions.authToken || !twilioOptions.fromTelNumber) {
+    throw 'NohanaMailAdapter requires an twilio account sid, twilio auth token, and fromTelNumber.';
   }
   var twilioClient = new twilio.RestClient(twilioOptions.accountSid, twilioOptions.authToken);
 
@@ -44,7 +44,7 @@ var NohanaMailAdapter = options => {
   var sendPasswordResetEmail = options => {
     var data = {
       to: options.to,
-      from: options.from,
+      from: twilioOptions.fromTelNumber,
       body: options.text,
     };
     twilioClient.messages.create(data, function (err, message) {
