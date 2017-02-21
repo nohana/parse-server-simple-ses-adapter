@@ -1,16 +1,26 @@
 var ses = require('node-ses');
+var twilio = require('twilio');
 
-var NohanaMailAdapter = sesOptions => {
+var NohanaMailAdapter = options => {
 
-  if (!sesOptions || !sesOptions.apiKey || !sesOptions.apiSecret || !sesOptions.domain || !sesOptions.fromAddress) {
-    throw 'NohanaMailAdapter requires an API Key, domain, and fromAddress.';
+  if (!options) {
+    throw 'NohanaMailAdapter requires options.';
   }
-  
+
+  var sesOptions = options.sesOptions;
+  if (!sesOptions || !sesOptions.apiKey || !sesOptions.apiSecret || !sesOptions.domain || !sesOptions.fromAddress) {
+    throw 'NohanaMailAdapter requires an SES API Key, SES domain, and SES fromAddress.';
+  }
   if(!sesOptions.amazon){
     sesOptions.amazon = 'https://email.us-east-1.amazonaws.com'
   }
-  
-  var client = ses.createClient({ key: sesOptions.apiKey, secret: sesOptions.apiSecret, amazon : sesOptions.amazon });
+  var sesClient = ses.createClient({ key: sesOptions.apiKey, secret: sesOptions.apiSecret, amazon : sesOptions.amazon });
+
+  var twilioOptions = options.twilioOptions;
+  if (!twilioOptions || !twilioOptions.accountSid || !twilioOptions.authToken) {
+    throw 'NohanaMailAdapter requires an twilio account sid, twilio auth token.';
+  }
+  var twilioClient = new twilio.RestClient(twilioOptions.accountSid, twilioOptions.authToken);
 
   var sendMail = mail => {
     var data = {
@@ -21,7 +31,7 @@ var NohanaMailAdapter = sesOptions => {
     };
 
     return new Promise((resolve, reject) => {
-      client.sendEmail(data, function(err, body, res) {
+      sesClient.sendEmail(data, function(err, body, res) {
         if (typeof err !== 'undefined') {
           console.log(err);
           reject(err);
@@ -31,8 +41,24 @@ var NohanaMailAdapter = sesOptions => {
     });
   };
 
+  var sendPasswordResetEmail = options => {
+    var data = {
+      to: options.to,
+      from: options.from,
+      body: options.text,
+    };
+    twilioClient.messages.create(data, function (err, message) {
+      if (typeoof err !== 'undefined') {
+        console.log(err);
+        reject(err);
+      }
+      resolve(message);
+    });
+  };
+
   return Object.freeze({
-    sendMail: sendMail
+    sendMail: sendMail,
+    sendPasswordResetEmail: sendPasswordResetEmail
   });
 };
 

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/ericraio/parse-server-nohana-mail-adapter#readme",
   "dependencies": {
-    "node-ses": "1.2.0"
+    "node-ses": "1.2.0",
+    "twilio": "^2.11.1"
   }
 }
