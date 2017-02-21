@@ -1,2 +1,2 @@
-# parse-server-simple-ses-adapter
-Used to send Parse Server password reset and email verification emails though Amazon AWS SES
+# parse-server-nohana-mail-adapter
+Used to send Parse Server password reset SMS though twilio, and send email though AWS SES
