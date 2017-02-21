@@ -1,14 +1,14 @@
 {
-  "name": "parse-server-simple-ses-adapter",
+  "name": "parse-server-nohana-mail-adapter",
   "version": "1.0.5",
-  "description": "Used to send Parse Server password reset and email verification emails though ses",
+  "description": "Used to send Parse Server password reset SMS though twilio, and send email though AWS SES",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ericraio/parse-server-simple-ses-adapter.git"
+    "url": "git+https://github.com/nohana/parse-server-nohana-mail-adapter.git"
   },
   "keywords": [
     "parse",
@@ -18,9 +18,9 @@
   "author": "Drew Gross",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/ericraio/parse-server-simple-ses-adapter/issues"
+    "url": "https://github.com/nohana/parse-server-nohana-mail-adapter/issues"
   },
-  "homepage": "https://github.com/ericraio/parse-server-simple-ses-adapter#readme",
+  "homepage": "https://github.com/ericraio/parse-server-nohana-mail-adapter#readme",
   "dependencies": {
     "node-ses": "1.2.0"
   }

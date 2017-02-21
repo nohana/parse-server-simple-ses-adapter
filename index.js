@@ -1,9 +1,9 @@
 var ses = require('node-ses');
 
-var SimpleSESAdapter = sesOptions => {
+var NohanaMailAdapter = sesOptions => {
 
   if (!sesOptions || !sesOptions.apiKey || !sesOptions.apiSecret || !sesOptions.domain || !sesOptions.fromAddress) {
-    throw 'SimpleSESAdapter requires an API Key, domain, and fromAddress.';
+    throw 'NohanaMailAdapter requires an API Key, domain, and fromAddress.';
   }
   
   if(!sesOptions.amazon){
@@ -36,4 +36,4 @@ var SimpleSESAdapter = sesOptions => {
   });
 };
 
-module.exports = SimpleSESAdapter;
+module.exports = NohanaMailAdapter;
